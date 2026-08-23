@@ -6,13 +6,17 @@ public class Player : MonoBehaviour
     private Cargo currentCargo;
     public float thrustForce;
     public float emptyMass;
+    public float droneCapacity = 10f;
+    public float capacity;
 
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.mass = emptyMass;  
+        rb.mass = emptyMass;
+        
+        
+        
     }
 
     void Update()
@@ -23,7 +27,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {  
         Move();
@@ -37,16 +40,28 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(x, y);
 
-        rb.AddForce(input * thrustForce, ForceMode2D.Impulse);
+        droneCapacity = rb.mass/capacity;
+
+        float appliedForce = thrustForce;
+        
+        if(droneCapacity >= 15f)
+
+        {
+            appliedForce = thrustForce * 0.5f;
+        }
+
+        rb.AddForce(input * appliedForce, ForceMode2D.Impulse);
     }
 
     void DropCargo()
     {   
         //cargo droplandiginda fizik motoru dynamic e degisiyor. Player in child i olmaktan kurtuluyor ve oyuncu mass i eski haline donuyor.
         currentCargo.cargoRb.bodyType = RigidbodyType2D.Dynamic;
+        currentCargo.cargoRb.linearVelocity = rb.linearVelocity; //drone un hizini kargonunkine esitliyoruz.
         currentCargo.transform.SetParent(null);
         currentCargo = null;
         rb.mass = emptyMass;
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -59,7 +74,6 @@ public class Player : MonoBehaviour
             currentCargo = other.GetComponent<Cargo>();
             rb.mass = currentCargo.cargoMass + rb.mass;
             currentCargo.transform.SetParent(transform);
-            Debug.Log(rb.mass);
         }
     }
 }
