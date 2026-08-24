@@ -299,7 +299,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &7301098892827867876
 CircleCollider2D:
@@ -352,4 +352,5 @@ MonoBehaviour:
   cargoRb: {fileID: 5319401495976327876}
   cargoMass: 0
   displayedMass: 0
+  isDangerous: 0
   massText: {fileID: 8025054170654034542}

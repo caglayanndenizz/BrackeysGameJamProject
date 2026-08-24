@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
@@ -8,12 +9,25 @@ public class Player : MonoBehaviour
     public float emptyMass;
     public float droneCapacity = 10f;
     public float capacity;
+    
+    public float maxHealth;
+    public float currentHealth;
+
+    public Slider healthSlider;
+    public Slider shieldSlider;
+    public bool isShieldActive = false;
+    public float maxShield;
+    public float currentShield;
 
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.mass = emptyMass;
+        currentHealth = maxHealth;
+        healthSlider.maxValue = maxHealth;
+        healthSlider.value = currentHealth;
+
         
         
         
@@ -24,6 +38,18 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && currentCargo != null)
         {
             DropCargo();
+        }
+
+        if(isShieldActive)
+        {
+            //shield decay mantigi.
+            currentShield -= 15f * Time.deltaTime;
+            currentShield = Mathf.Clamp(currentShield,0f,maxShield);
+            shieldSlider.value = currentShield;
+            if(currentShield <= 0)
+            {
+                isShieldActive = false;
+            }
         }
     }
 
@@ -75,5 +101,44 @@ public class Player : MonoBehaviour
             rb.mass = currentCargo.cargoMass + rb.mass;
             currentCargo.transform.SetParent(transform);
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if(isShieldActive)
+        {
+            currentShield = Mathf.Clamp(currentShield - damage , 0f , maxShield);
+            shieldSlider.value = currentShield;
+            if(currentShield <=0)
+            {
+                isShieldActive = false;
+                shieldSlider.gameObject.SetActive(false);
+                Debug.Log("Shield depleted.");
+            }
+        }
+        else
+        {
+            currentHealth = Mathf.Clamp(currentHealth - damage , 0f , maxHealth);
+            //Mathf.Clamp = min max degerini kesinlestiriyor. Canin -501239 ye inmesini engelliyor mesela.
+            healthSlider.value = currentHealth;
+
+            if(currentHealth <= 0)
+            {
+                Debug.Log("Dead");
+            }
+        }
+        
+    }
+
+    public void ActivateShield()
+    {
+        //health mantigi ile ayni. Shield aktivasyonu saglandiginda once shield in degerini yaziyor daha sonra da slider da guncelliyorsun.
+        isShieldActive = true;
+        currentShield = maxShield;
+        shieldSlider.gameObject.SetActive(true);
+        shieldSlider.maxValue = maxShield;
+        shieldSlider.value = currentShield;
+        Debug.Log("Shield activated: " + isShieldActive);
+
     }
 }

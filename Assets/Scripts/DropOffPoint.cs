@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class DropOffPoint : MonoBehaviour
 {
+    public Player player;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,5 +16,7 @@ public class DropOffPoint : MonoBehaviour
             //eger sure yetmezse SceneManager.LoadScene(SceneManager.GetActiveScene().name) bu
             
         }
+
+        
     }
 }
