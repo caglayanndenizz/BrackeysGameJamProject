@@ -50,11 +50,26 @@ public class PowerUpPanel : MonoBehaviour
 
     public void HarmlessCargoUpgrade()
     {
-        // Kargo nun patlamamasini garanti ediyor.?
+        player.hasHarmlessCargo = true;
+        gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
-    public void CapacityUpgrade()
+    public void CapacityUpgrade(float amount)
     {
         //Capacity yi  upgrade edersin fakat only if displayedMass = cargoMass
+        Cargo cargo = FindFirstObjectByType<Cargo>();
+
+        if(cargo != null && cargo.displayedMass == cargo.cargoMass)
+        {
+            player.capacity += amount;
+        }
+        else
+        {
+            Debug.Log("Sistem data is unreliable.");
+        }
+
+        gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

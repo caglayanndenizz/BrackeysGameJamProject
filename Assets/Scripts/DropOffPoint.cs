@@ -3,20 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class DropOffPoint : MonoBehaviour
 {
-    public Player player;
+    private bool levelCompleted = false;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Cargo") && other.transform.parent == null)
+        CheckCargo(other);
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        CheckCargo(other);
+    }
+
+    void CheckCargo(Collider2D other)
+    {
+        if (levelCompleted) return;
+
+        if (other.CompareTag("Cargo") && other.transform.parent == null)
         {
+            levelCompleted = true;
             Debug.Log("Cargo Received and level completed.");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Halihazirda olan scene i tekrardan baslatiyor.
-            //ilerde levellari scene olarak yarattigimizda SceneManager.LoadScene("Level bilmem kac") olarak degistirecegiz.
-
-            //eger sure yetmezse SceneManager.LoadScene(SceneManager.GetActiveScene().name) bu
-            
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-
-        
     }
 }

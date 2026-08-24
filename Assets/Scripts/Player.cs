@@ -1,3 +1,4 @@
+using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.UI;
 public class Player : MonoBehaviour
@@ -6,8 +7,10 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Cargo currentCargo;
     public float thrustForce;
+    public float maxSpeed = 10;
     public float emptyMass;
-    public float droneCapacity = 10f;
+    public float totalMass;
+    public float droneCapacity;
     public float capacity;
     
     public float maxHealth;
@@ -16,8 +19,10 @@ public class Player : MonoBehaviour
     public Slider healthSlider;
     public Slider shieldSlider;
     public bool isShieldActive = false;
+    public bool hasHarmlessCargo;
     public float maxShield;
     public float currentShield;
+
 
     
     void Start()
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
+        
 
         
         
@@ -66,17 +72,31 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(x, y);
 
-        droneCapacity = rb.mass/capacity;
+        if(currentCargo != null)
+        {
+            totalMass = emptyMass + currentCargo.cargoMass;
+        }
+        else
+        {
+            totalMass = emptyMass;
+        }
+        
+        droneCapacity = totalMass/capacity;
 
         float appliedForce = thrustForce;
         
-        if(droneCapacity >= 15f)
+        if(droneCapacity >= 2f)
 
         {
-            appliedForce = thrustForce * 0.5f;
+            appliedForce = thrustForce * 0.25f; //%75 kesinti yapiyor. 
+        }
+        else if(droneCapacity > 1f)
+        {
+            appliedForce = thrustForce * 0.5f; //%50 kesinti yapiyor.
         }
 
-        rb.AddForce(input * appliedForce, ForceMode2D.Impulse);
+        rb.AddForce(input * appliedForce, ForceMode2D.Force);
+        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
     }
 
     void DropCargo()
@@ -85,6 +105,7 @@ public class Player : MonoBehaviour
         currentCargo.cargoRb.bodyType = RigidbodyType2D.Dynamic;
         currentCargo.cargoRb.linearVelocity = rb.linearVelocity; //drone un hizini kargonunkine esitliyoruz.
         currentCargo.transform.SetParent(null);
+        Debug.Log("DropCargo calisti, SetParent sonrasi parent: " + currentCargo.transform.parent);
         currentCargo = null;
         rb.mass = emptyMass;
 
@@ -98,7 +119,7 @@ public class Player : MonoBehaviour
         {
             //kargo tag i cargo olan objelerin, player a child olarak ataniyor. Boylece player mass = player mass + cargo mass oluyor.
             currentCargo = other.GetComponent<Cargo>();
-            rb.mass = currentCargo.cargoMass + rb.mass;
+            rb.mass = totalMass;
             currentCargo.transform.SetParent(transform);
         }
     }

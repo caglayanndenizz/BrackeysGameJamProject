@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 101151952}
   - component: {fileID: 101151951}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: Harmless
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,7 +202,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 101151952}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1727611399}
+        m_TargetAssemblyTypeName: PowerUpPanel, Assembly-CSharp
+        m_MethodName: HarmlessCargoUpgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &101151952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1225,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 656346923}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1727611399}
+        m_TargetAssemblyTypeName: PowerUpPanel, Assembly-CSharp
+        m_MethodName: CapacityUpgrade
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &656346923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1337,8 +1361,8 @@ GameObject:
   m_Component:
   - component: {fileID: 739078677}
   - component: {fileID: 739078676}
-  - component: {fileID: 739078675}
   - component: {fileID: 739078678}
+  - component: {fileID: 739078679}
   m_Layer: 0
   m_Name: DropOff
   m_TagString: Untagged
@@ -1346,43 +1370,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!70 &739078675
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739078674}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.005773318, y: 0.06854047}
-  m_Size: {x: 3.0472214, y: 3.2186894}
-  m_Direction: 0
 --- !u!212 &739078676
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1468,7 +1455,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf9f98eed79951498979535b0f47e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropOffPoint
-  player: {fileID: 1033552053}
+--- !u!58 &739078679
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739078674}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.009633412, y: 0.09470311}
+  m_Radius: 1.33
 --- !u!1 &856352736
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,15 +2262,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4f799964d67934b9ad37872ac9420e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  thrustForce: 5
+  thrustForce: 500
+  maxSpeed: 10
   emptyMass: 5
-  droneCapacity: 10
+  totalMass: 0
+  droneCapacity: 0.5
   capacity: 2
   maxHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 1714282982}
   shieldSlider: {fileID: 186664963}
   isShieldActive: 0
+  hasHarmlessCargo: 0
   maxShield: 150
   currentShield: 0
 --- !u!1 &1167498752
@@ -3499,8 +3524,8 @@ MonoBehaviour:
   panelObject: {fileID: 1727611395}
   healthButton: {fileID: 1804009486}
   shildButton: {fileID: 892183500}
-  capacityButton: {fileID: 0}
-  harmlessCargoButton: {fileID: 0}
+  capacityButton: {fileID: 656346922}
+  harmlessCargoButton: {fileID: 101151951}
   player: {fileID: 1033552053}
 --- !u!1 &1804009484
 GameObject:
