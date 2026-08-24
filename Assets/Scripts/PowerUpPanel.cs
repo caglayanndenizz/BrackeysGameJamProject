@@ -62,7 +62,7 @@ public class PowerUpPanel : MonoBehaviour
 
         if(cargo != null && cargo.displayedMass == cargo.cargoMass)
         {
-            player.capacity += amount;
+            player.capacity -= amount;
         }
         else
         {

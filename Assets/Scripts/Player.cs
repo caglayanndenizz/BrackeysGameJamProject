@@ -1,4 +1,5 @@
 using System.Xml.Schema;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 public class Player : MonoBehaviour
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
+        y = Mathf.Max(y, 0f); //negatif girdi sifirlaniyor.
 
         Vector2 input = new Vector2(x, y);
 
@@ -98,14 +100,12 @@ public class Player : MonoBehaviour
         rb.AddForce(input * appliedForce, ForceMode2D.Force);
         rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
     }
-
     void DropCargo()
     {   
         //cargo droplandiginda fizik motoru dynamic e degisiyor. Player in child i olmaktan kurtuluyor ve oyuncu mass i eski haline donuyor.
         currentCargo.cargoRb.bodyType = RigidbodyType2D.Dynamic;
         currentCargo.cargoRb.linearVelocity = rb.linearVelocity; //drone un hizini kargonunkine esitliyoruz.
         currentCargo.transform.SetParent(null);
-        Debug.Log("DropCargo calisti, SetParent sonrasi parent: " + currentCargo.transform.parent);
         currentCargo = null;
         rb.mass = emptyMass;
 
