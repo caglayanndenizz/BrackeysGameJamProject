@@ -5,8 +5,7 @@ public class PowerUpPanel : MonoBehaviour
 {
     public GameObject panelObject;
     public Button healthButton;
-    public Button shieldButton;
-    public Button capacityButton;
+    public Button shieldButton; 
     public Button harmlessCargoButton;
 
     public bool healthIsReal;
@@ -30,8 +29,7 @@ public class PowerUpPanel : MonoBehaviour
         harmlessCargoIsReal = Random.Range(0f,100f) < trueChance;
 
         healthButton.GetComponent<ButtonHover>().testValue = healthIsReal;
-        shieldButton.GetComponent<ButtonHover>().testValue = shieldIsReal;   //buttonHover scriptinin icerisindeki testvalue ya erisiyoruz. Yani o butonun gercek degeri ne?
-        capacityButton.GetComponent<ButtonHover>().testValue = capacityIsReal;
+        shieldButton.GetComponent<ButtonHover>().testValue = shieldIsReal;   //buttonHover scriptinin icerisindeki testvalue ya erisiyoruz. Yani o butonun gercek degeri ne
         harmlessCargoButton.GetComponent<ButtonHover>().testValue = harmlessCargoIsReal;
 
 
@@ -89,21 +87,4 @@ public class PowerUpPanel : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void CapacityUpgrade(float amount)
-    {
-        //Capacity yi  upgrade edersin fakat only if displayedMass = cargoMass
-        Cargo cargo = FindFirstObjectByType<Cargo>();
-
-        if(cargo != null && cargo.displayedMass == cargo.cargoMass)
-        {
-            player.capacity -= amount;
-        }
-        else
-        {
-            Debug.Log("Sistem data is unreliable.");
-        }
-
-        gameObject.SetActive(false);
-        Time.timeScale = 1f;
-    }
 }

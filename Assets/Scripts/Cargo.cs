@@ -7,12 +7,9 @@ public class Cargo : MonoBehaviour
 {
 
     public Rigidbody2D cargoRb;
-    public int cargoMass;
-    public int displayedMass;
-    private bool isLying;
     public bool isDangerous;
     public bool isToxic;
-    public TMP_Text massText;
+    
     public float explosionTimer;
     private Player player;
     public TMP_Text timerText;
@@ -22,10 +19,7 @@ public class Cargo : MonoBehaviour
     void Start()
     {
         cargoRb = GetComponent<Rigidbody2D>();
-        cargoMass = Random.Range(1 , 15);
-        cargoRb.mass = cargoMass;
 
-        PossibilityOfCargoLying();
         PossibilityOfCargoExplosion();
         player = FindFirstObjectByType<Player>();
 
@@ -85,22 +79,6 @@ public class Cargo : MonoBehaviour
         
     }
 
-    public void PossibilityOfCargoLying()
-    {
-        float roll = Random.Range(0f , 1f);
-        isLying = roll < 0.4f;
-
-        if(isLying)
-        {
-            displayedMass = Random.Range(1, 15);
-        }
-        else
-        {
-            displayedMass = cargoMass;
-        }
-        
-        massText.text = displayedMass.ToString() + "Kg";
-    }
 
     public void PossibilityOfCargoExplosion()
     {

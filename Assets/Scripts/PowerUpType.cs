@@ -3,7 +3,6 @@
     {
         Health,
         Shield,
-        Capacity,
         HarmlessCargo
     }
 
