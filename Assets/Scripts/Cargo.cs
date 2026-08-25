@@ -13,8 +13,11 @@ public class Cargo : MonoBehaviour
     public bool isDangerous;
     public bool isToxic;
     public TMP_Text massText;
-    private float explosionTimer;
+    public float explosionTimer;
     private Player player;
+    public TMP_Text timerText;
+
+    public float displayOffset;
     
     void Start()
     {
@@ -26,10 +29,20 @@ public class Cargo : MonoBehaviour
         PossibilityOfCargoExplosion();
         player = FindFirstObjectByType<Player>();
 
+
+        timerText = GameObject.FindGameObjectWithTag("TimerUI").GetComponent<TMP_Text>();
+        timerText.gameObject.SetActive(false); // pickup olana kadar kapali kalmasi lazim.
+        
+        
         if(isDangerous)
         {
-            explosionTimer = Random.Range(20f,50f);
+            
+            explosionTimer = 30f;
+            displayOffset = Random.Range(-3f , 3f);
         }
+
+
+        
     }
 
     void Update()
@@ -41,10 +54,15 @@ public class Cargo : MonoBehaviour
             SceneReload();
         }
 
-        if(player.hasHarmlessCargo && isDangerous)
+        if(player.hasHarmlessCargo)
         {
-            isDangerous = false;
             isToxic = true;
+
+            if(isDangerous)
+            {
+                isDangerous = false;
+                timerText.gameObject.SetActive(false);
+            }
         }
 
         ToxicWaste();
@@ -52,6 +70,9 @@ public class Cargo : MonoBehaviour
         if(!isDangerous) return;
         if(transform.parent == null) return;
         explosionTimer -= Time.deltaTime;
+
+        float displayedTimer = Mathf.Max(explosionTimer + displayOffset , 0f); // timer in - li sayi almasini engelliyor.
+        timerText.text = explosionTimer.ToString("F0"); //23.45 gibi bir sayiyi 23 e tamamlar.
 
         if(explosionTimer <= 0f)
         {
@@ -88,7 +109,7 @@ public class Cargo : MonoBehaviour
 
     void Explode()
     {
-        player.TakeDamage(20);
+        player.TakeDamage(300);
         Destroy(gameObject);
     }
 
@@ -100,9 +121,13 @@ public class Cargo : MonoBehaviour
             player.TakeDamage(10f * Time.deltaTime);
         }
     }
-
     void SceneReload()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnPickedUp()
+    {
+        timerText.gameObject.SetActive(isDangerous);
     }
 }

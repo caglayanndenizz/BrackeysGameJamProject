@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Xml.Schema;
 using Unity.Mathematics;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     public Slider healthSlider;
     public Slider shieldSlider;
     public bool isShieldActive = false;
+    public bool isShieldPermanent = false;
+    public bool canDecay = false;
     public bool hasHarmlessCargo;
     public float maxShield;
     public float currentShield;
@@ -47,7 +50,7 @@ public class Player : MonoBehaviour
             DropCargo();
         }
 
-        if(isShieldActive)
+        if(isShieldActive && !isShieldPermanent && canDecay)
         {
             //shield decay mantigi.
             currentShield -= 15f * Time.deltaTime;
@@ -121,6 +124,8 @@ public class Player : MonoBehaviour
             currentCargo = other.GetComponent<Cargo>();
             rb.mass = totalMass;
             currentCargo.transform.SetParent(transform);
+            Debug.Log("Cargo pickup tetiklendi");
+            currentCargo.OnPickedUp();
         }
     }
 
@@ -151,8 +156,9 @@ public class Player : MonoBehaviour
         
     }
 
-    public void ActivateShield()
+    public void ActivateShield(bool isPermanent)
     {
+        isShieldPermanent = isPermanent;
         //health mantigi ile ayni. Shield aktivasyonu saglandiginda once shield in degerini yaziyor daha sonra da slider da guncelliyorsun.
         isShieldActive = true;
         currentShield = maxShield;
@@ -161,5 +167,17 @@ public class Player : MonoBehaviour
         shieldSlider.value = currentShield;
         Debug.Log("Shield activated: " + isShieldActive);
 
+        if(!isShieldPermanent)
+        {
+            canDecay = false;
+            StartCoroutine(EnableDecayAfterDelay());
+        }
+
+    }
+
+    private IEnumerator EnableDecayAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        canDecay = true;
     }
 }

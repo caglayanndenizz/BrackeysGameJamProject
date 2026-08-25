@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Poligraph : MonoBehaviour
 {
-    public bool usedBefore = false;
+     [SerializeField] private bool usedBefore = false;
+     public Animator animator;
     public void Reveal(PowerUpType type , bool realValue)
     {
         if(usedBefore) return;
@@ -22,9 +23,15 @@ public class Poligraph : MonoBehaviour
             displayedValue = !realValue;
         }
 
-        Debug.Log("Poligraph gosterdi");
+        animator.SetBool("IsWavy" , !displayedValue);
         usedBefore = true;
         GameManager.instance.IncreaseCount();
+    }
+
+
+    public void ResetToIdle()
+    {
+        animator.SetBool("IsWavy" , false);
     }
 
 }

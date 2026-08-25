@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Cargo
+  - TimerUI
   layers:
   - Default
   - TransparentFX

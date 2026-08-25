@@ -1,17 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonHover : MonoBehaviour , IPointerEnterHandler
+public class ButtonHover : MonoBehaviour , IPointerEnterHandler , IPointerExitHandler
 {
 
     public bool testValue;
-    public Poligraph poligraph;
+    public Poligraph polygraph;
 
     public PowerUpType powerUpType;
     
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        poligraph.Reveal(powerUpType, testValue);
+        polygraph.Reveal(powerUpType, testValue);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        polygraph.ResetToIdle();
     }
 }
