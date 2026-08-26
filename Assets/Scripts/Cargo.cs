@@ -72,11 +72,7 @@ public class Cargo : MonoBehaviour
         {
             Explode();
             SceneReload();
-        }
-
-        
-
-        
+        } 
     }
 
 

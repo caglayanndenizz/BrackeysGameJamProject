@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Xml.Schema;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 public class Player : MonoBehaviour
@@ -8,6 +6,8 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
     private Cargo currentCargo;
+    private float baseThrustForce;
+    private Coroutine thrustError;
     public float thrustForce;
     public float maxSpeed = 10;    
     public float maxHealth;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
-        
+        baseThrustForce = thrustForce;
 
         
         
@@ -123,6 +123,29 @@ public class Player : MonoBehaviour
             }
         }
         
+    }
+
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount , 0f , maxHealth);
+        healthSlider.value = currentHealth;
+    }
+
+    public void ApplyThrustPenalty(float multiplier , float duration)
+    {
+        if(thrustError != null)
+        {
+            StopCoroutine(thrustError);
+        }
+        thrustError =  StartCoroutine(ThrustError(multiplier , duration));
+    }
+
+    private IEnumerator ThrustError(float multiplier , float duration)
+    {
+        thrustForce = baseThrustForce * multiplier;
+        yield return new WaitForSeconds(duration);
+        thrustForce = baseThrustForce;
+        thrustError = null;
     }
 
     public void ActivateShield(bool isPermanent)
