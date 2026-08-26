@@ -6,7 +6,18 @@ public class PowerUp : MonoBehaviour
     public PowerUpPanel powerUpPanel;
     private bool panelShown = false;
 
+    void Awake()
+    {
+        if(powerUpPanel == null)
+        {
+            powerUpPanel = FindFirstObjectByType<PowerUpPanel>(FindObjectsInactive.Include);
 
+            if(powerUpPanel == null)
+            {
+                Debug.LogWarning("PowerUp: Sahnede PowerUpPanel bulunamadi.");
+            }
+        }
+    }
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))

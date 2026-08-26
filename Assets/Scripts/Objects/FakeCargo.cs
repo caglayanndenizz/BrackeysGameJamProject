@@ -3,10 +3,10 @@ using UnityEngine;
 public class FakeCargo : MonoBehaviour
 {
     public float healAmount;
-    public float healChance = 0.8f;
+    public float healChance ;
 
-    public float thrustMultiplier = 0.3f;
-    public float thrustDuration = 2f;
+    public float thrustMultiplier;
+    public float thrustDuration;
 
     private Player player;
 
