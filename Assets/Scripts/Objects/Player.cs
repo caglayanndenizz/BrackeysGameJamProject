@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float maxSpeed = 10;    
     public float maxHealth;
     public float currentHealth;
+    private bool isDead;
 
     public Slider healthSlider;
     public Slider shieldSlider;
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
     public bool hasHarmlessCargo;
     public float maxShield;
     public float currentShield;
+
+    public DeathPanel deathPanel;
 
 
     
@@ -117,9 +120,11 @@ public class Player : MonoBehaviour
             //Mathf.Clamp = min max degerini kesinlestiriyor. Canin -501239 ye inmesini engelliyor mesela.
             healthSlider.value = currentHealth;
 
-            if(currentHealth <= 0)
+            if(currentHealth <= 0 && !isDead)
             {
+                isDead = true;
                 Debug.Log("Dead");
+                deathPanel.ShowDeathPanel();
             }
         }
         
@@ -171,5 +176,15 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2f);
         canDecay = true;
+    }
+
+    public void ResetState()
+    {
+        currentHealth = maxHealth;
+        healthSlider.value = currentHealth;
+        isShieldActive = false;
+        shieldSlider.gameObject.SetActive(false);
+        currentCargo = null;
+        isDead = false;
     }
 }
