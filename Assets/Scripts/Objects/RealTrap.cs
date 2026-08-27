@@ -7,6 +7,8 @@ public class RealTrap : MonoBehaviour
     public GameObject spikePrefab;
     public float spawnInterval = 2f;
 
+    public float spikeSpeed;
+
     public SpikeDirection direction = SpikeDirection.Right;
 
     public Transform spawnPointUp;
@@ -38,6 +40,20 @@ public class RealTrap : MonoBehaviour
         if(spike != null)
         {
             spike.direction = moveDirection;
+            spike.speed = spikeSpeed;
+        }
+
+        IgnoreCollisionWithOwnTrap(spikeObj);
+    }
+
+void IgnoreCollisionWithOwnTrap(GameObject spikeObj)
+    {
+        Collider2D spikeCollider = spikeObj.GetComponent<Collider2D>();
+        Collider2D trapCollider = GetComponent<Collider2D>(); // bu trap'in kendi collider'i
+
+        if(spikeCollider != null && trapCollider != null)
+        {
+            Physics2D.IgnoreCollision(spikeCollider, trapCollider);
         }
     }
 
@@ -74,7 +90,6 @@ public class RealTrap : MonoBehaviour
             {
                 player.TakeDamage(10);
             }
-            Destroy(gameObject);
         }
     }
 }

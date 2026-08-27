@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public bool isShieldPermanent = false;
     public bool canDecay = false;
     public bool hasHarmlessCargo;
+    public bool harmlessCargoIsSafe;
     public float maxShield;
     public float currentShield;
 

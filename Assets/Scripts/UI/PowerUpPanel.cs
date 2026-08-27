@@ -82,7 +82,9 @@ public class PowerUpPanel : MonoBehaviour
 
     public void HarmlessCargoUpgrade()
     {
+        player.harmlessCargoIsSafe = harmlessCargoIsReal;
         player.hasHarmlessCargo = true;
+        
         gameObject.SetActive(false);
         Time.timeScale = 1f;
     }

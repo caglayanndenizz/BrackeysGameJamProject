@@ -50,7 +50,7 @@ public class Cargo : MonoBehaviour
 
         if(player.hasHarmlessCargo)
         {
-            isToxic = true;
+            isToxic = !player.harmlessCargoIsSafe;
 
             if(isDangerous)
             {
@@ -92,7 +92,7 @@ public class Cargo : MonoBehaviour
         //daha sonradan bir timer eklenecek. Aninda canini dusurmeye baslamayacak. Aksine o timer gectikten sonra asagidaki kod cagrilacak.
         if(isToxic && transform.parent != null)
         {
-            player.TakeDamage(10f * Time.deltaTime);
+            player.TakeDamage(2.5f * Time.deltaTime);
         }
     }
     void SceneReload()

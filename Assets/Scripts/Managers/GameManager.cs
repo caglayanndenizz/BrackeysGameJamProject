@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public int usageCount = 0;
     public float baseAccuracy = 100f;
     public float decayPerUse = 10f;
-    public float minAccuracy = 50f;
+    public float minAccuracy = 70f;
 
     void Awake()
     {

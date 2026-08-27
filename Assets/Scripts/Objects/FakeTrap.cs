@@ -6,6 +6,7 @@ public class FakeTrap : MonoBehaviour
     public enum SpikeDirection {Up , Down , Right , Left}
     public GameObject spikePrefab;
     public float spawnInterval = 2f;
+    public float spikeSpeed;
 
     public SpikeDirection direction = SpikeDirection.Right;
 
@@ -38,6 +39,7 @@ public class FakeTrap : MonoBehaviour
         if(spike != null)
         {
             spike.direction = moveDirection;
+            spike.speed = spikeSpeed;
         }
     }
 

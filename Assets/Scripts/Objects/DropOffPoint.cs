@@ -23,7 +23,7 @@ public class DropOffPoint : MonoBehaviour
         {
             levelCompleted = true;
             Debug.Log("Cargo Received and level completed.");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            LevelManager.Instance.LoadNextLevel();
         }
     }
 }

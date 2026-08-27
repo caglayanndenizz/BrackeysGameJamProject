@@ -8,12 +8,8 @@ public class RealSpikes : MonoBehaviour
     public float lifeTime = 15f;
     public Vector2 direction = Vector2.right;
     
-
-
-    void Start()
-    {
-        Destroy(gameObject,lifeTime);
-    }
+    public Rigidbody2D rb;
+    
 
     void Update()
     {
@@ -31,8 +27,9 @@ public class RealSpikes : MonoBehaviour
             {
                 player.TakeDamage(10);
             }
-            Destroy(gameObject);
+            
         }
+        Destroy(gameObject);
     }
 
 
