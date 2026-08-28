@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
+    public Animator animator;
+    private static readonly int SpeedParam = Animator.StringToHash("Speed");
+    private static readonly int IsDeadParam = Animator.StringToHash("IsDead");
 
     private Rigidbody2D rb;
     private Cargo currentCargo;
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        animator.SetFloat(SpeedParam, rb.linearVelocity.magnitude);
         if(Input.GetKeyDown(KeyCode.Space) && currentCargo != null)
         {
             DropCargo();
@@ -124,7 +128,7 @@ public class Player : MonoBehaviour
             if(currentHealth <= 0 && !isDead)
             {
                 isDead = true;
-                Debug.Log("Dead");
+                animator.SetTrigger(IsDeadParam);
                 deathPanel.ShowDeathPanel();
             }
         }
@@ -187,5 +191,6 @@ public class Player : MonoBehaviour
         shieldSlider.gameObject.SetActive(false);
         currentCargo = null;
         isDead = false;
+        animator.Play("Idle");
     }
 }

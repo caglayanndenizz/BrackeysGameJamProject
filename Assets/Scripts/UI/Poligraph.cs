@@ -32,6 +32,7 @@ public class Poligraph : MonoBehaviour
     public void ResetToIdle()
     {
         animator.SetBool("IsWavy" , false);
+        usedBefore = false;
     }
 
 }

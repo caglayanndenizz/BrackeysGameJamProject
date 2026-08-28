@@ -46,7 +46,7 @@ public class RealTrap : MonoBehaviour
         IgnoreCollisionWithOwnTrap(spikeObj);
     }
 
-void IgnoreCollisionWithOwnTrap(GameObject spikeObj)
+    void IgnoreCollisionWithOwnTrap(GameObject spikeObj)
     {
         Collider2D spikeCollider = spikeObj.GetComponent<Collider2D>();
         Collider2D trapCollider = GetComponent<Collider2D>(); // bu trap'in kendi collider'i

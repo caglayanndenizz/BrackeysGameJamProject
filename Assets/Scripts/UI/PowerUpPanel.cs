@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PowerUpPanel : MonoBehaviour
 {
     public GameObject panelObject;
+    public Poligraph poligraph;
     public Button healthButton;
     public Button shieldButton; 
     public Button harmlessCargoButton;
@@ -20,6 +21,8 @@ public class PowerUpPanel : MonoBehaviour
 
     public void ShowPanel()
     {
+        poligraph.gameObject.SetActive(true);
+        poligraph.ResetToIdle();
         panelObject.SetActive(true);
         Time.timeScale = 0f;
 
@@ -37,6 +40,7 @@ public class PowerUpPanel : MonoBehaviour
 
     public void ClosePanel()
     {
+        poligraph.gameObject.SetActive(false);
         panelObject.SetActive(false);
         Time.timeScale = 1f;
     }
@@ -59,7 +63,7 @@ public class PowerUpPanel : MonoBehaviour
             if(cargo != null)
             {
                 cargo.isDangerous = true;
-                cargo.timerText.gameObject.SetActive(true);
+                //cargo.timerText.gameObject.SetActive(true);
                 cargo.explosionTimer = 30f;
                 cargo.displayOffset =  Random.Range(-3f , 3f);
             }
@@ -68,16 +72,14 @@ public class PowerUpPanel : MonoBehaviour
         player.healthSlider.maxValue = player.maxHealth;
         player.healthSlider.value = player.currentHealth;
 
-        gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        ClosePanel();
 
     }
 
     public void ShieldUpgrade()
     {
         player.ActivateShield(shieldIsReal);
-        gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        ClosePanel();
     }
 
     public void HarmlessCargoUpgrade()
@@ -85,8 +87,7 @@ public class PowerUpPanel : MonoBehaviour
         player.harmlessCargoIsSafe = harmlessCargoIsReal;
         player.hasHarmlessCargo = true;
         
-        gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        ClosePanel();
     }
 
 }

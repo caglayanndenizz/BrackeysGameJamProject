@@ -41,6 +41,19 @@ public class FakeTrap : MonoBehaviour
             spike.direction = moveDirection;
             spike.speed = spikeSpeed;
         }
+
+        IgnoreCollisionWithOwnTrap(spikeObj);
+    }
+
+    void IgnoreCollisionWithOwnTrap(GameObject spikeObj)
+    {
+        Collider2D spikeCollider = spikeObj.GetComponent<Collider2D>();
+        Collider2D trapCollider = GetComponent<Collider2D>(); // bu trap'in kendi collider'i
+
+        if(spikeCollider != null && trapCollider != null)
+        {
+            Physics2D.IgnoreCollision(spikeCollider, trapCollider);
+        }
     }
 
     Transform GetSpawnPoint(SpikeDirection dir)

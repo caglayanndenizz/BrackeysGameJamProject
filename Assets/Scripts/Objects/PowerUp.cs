@@ -6,6 +6,7 @@ public class PowerUp : MonoBehaviour
     public PowerUpPanel powerUpPanel;
     private bool panelShown = false;
 
+
     void Awake()
     {
         if(powerUpPanel == null)
