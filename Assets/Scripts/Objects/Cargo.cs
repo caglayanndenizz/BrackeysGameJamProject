@@ -25,7 +25,7 @@ public class Cargo : MonoBehaviour
 
 
         timerText = GameObject.FindGameObjectWithTag("TimerUI").GetComponent<TMP_Text>();
-        timerText.gameObject.SetActive(false); // pickup olana kadar kapali kalmasi lazim.
+        timerText.text = "";
         
         
         if(isDangerous)

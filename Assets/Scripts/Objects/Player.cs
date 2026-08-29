@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public float currentShield;
 
     public DeathPanel deathPanel;
+    public float deathPanelDelay = 2f;
 
 
     
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(isDead) return;
         animator.SetFloat(SpeedParam, rb.linearVelocity.magnitude);
         if(Input.GetKeyDown(KeyCode.Space) && currentCargo != null)
         {
@@ -67,12 +69,14 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {  
+        
         Move();
     }
 
 
     void Move()
     {
+        if(isDead) return;
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         y = Mathf.Max(y, 0f); //negatif girdi sifirlaniyor.
@@ -128,11 +132,23 @@ public class Player : MonoBehaviour
             if(currentHealth <= 0 && !isDead)
             {
                 isDead = true;
-                animator.SetTrigger(IsDeadParam);
-                deathPanel.ShowDeathPanel();
+                StartCoroutine(DeathRoutine());
+
+                
             }
         }
         
+    }
+    private IEnumerator DeathRoutine()
+    {
+        animator.SetTrigger(IsDeadParam);
+
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        yield return new WaitForSeconds(deathPanelDelay);
+
+        deathPanel.ShowDeathPanel();
     }
 
     public void Heal(float amount)
@@ -185,12 +201,26 @@ public class Player : MonoBehaviour
 
     public void ResetState()
     {
+        StopAllCoroutines();                        
+        isDead = false;
+        rb.bodyType = RigidbodyType2D.Dynamic;      
+        rb.linearVelocity = Vector2.zero;           
+        thrustForce = baseThrustForce;              
+
+        if(currentCargo != null)                   
+        {
+            Destroy(currentCargo.gameObject);
+            currentCargo = null;
+        }
+
         currentHealth = maxHealth;
         healthSlider.value = currentHealth;
         isShieldActive = false;
+        isShieldPermanent = false;
         shieldSlider.gameObject.SetActive(false);
-        currentCargo = null;
-        isDead = false;
+        hasHarmlessCargo = false;                   
+        harmlessCargoIsSafe = false;               
+        animator.ResetTrigger(IsDeadParam);        
         animator.Play("Idle");
     }
 }

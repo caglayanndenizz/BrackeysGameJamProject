@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,14 +11,22 @@ public class LevelManager : MonoBehaviour
     {
         public GameObject levelPrefab;
         public Vector2 playerSpawnPosition;
+
+        
+
+
     }
 
     public LevelData[] levels;
 
     private GameObject currentLevel;
+    public CinemachineCamera cineCamera;
+
+    
     private int currentLevelIndex = 0;
 
     public Player player;
+    public Poligraph poligraph;
 
     void Awake()
     {
@@ -44,6 +53,8 @@ public class LevelManager : MonoBehaviour
         currentLevelIndex = index;
         currentLevel = Instantiate(levels[currentLevelIndex].levelPrefab);
 
+        poligraph.ResetForNewLevel();
+
         ResetPlayer();
     }
 
@@ -67,7 +78,12 @@ public class LevelManager : MonoBehaviour
 
     void ResetPlayer()
     {
+        Vector3 oldPosition = player.transform.position;
+
         player.transform.position = levels[currentLevelIndex].playerSpawnPosition;
         player.ResetState();
+
+        Vector3 delta = player.transform.position - oldPosition;
+        cineCamera.OnTargetObjectWarped(player.transform, delta);
     }
 }

@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class Poligraph : MonoBehaviour
 {
-     [SerializeField] private bool usedBefore = false;
+     [SerializeField] private bool usedThisLevel = false;
      public Animator animator;
+     public GameObject errorImage;
+
+    void Start()
+    {
+        errorImage.SetActive(false);
+    }
     public void Reveal(PowerUpType type , bool realValue)
     {
-        if(usedBefore) return;
+        if(usedThisLevel) return;
 
         float accuracy = GameManager.instance.GetAccuracy();
 
@@ -24,7 +30,7 @@ public class Poligraph : MonoBehaviour
         }
 
         animator.SetBool("IsWavy" , !displayedValue);
-        usedBefore = true;
+        usedThisLevel = true;
         GameManager.instance.IncreaseCount();
     }
 
@@ -32,7 +38,13 @@ public class Poligraph : MonoBehaviour
     public void ResetToIdle()
     {
         animator.SetBool("IsWavy" , false);
-        usedBefore = false;
+        errorImage.SetActive(usedThisLevel);
+    }
+
+     public void ResetForNewLevel()
+    {
+        usedThisLevel = false;
+        errorImage.SetActive(false);
     }
 
 }

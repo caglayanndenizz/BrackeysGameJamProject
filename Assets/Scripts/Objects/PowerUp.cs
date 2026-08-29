@@ -19,14 +19,6 @@ public class PowerUp : MonoBehaviour
             }
         }
     }
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            powerUpPanel.ClosePanel();
-            Time.timeScale = 1f;
-        }
-    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if(panelShown) return;

@@ -2084,7 +2084,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tileset_91
+      name: 01
       rect:
         serializedVersion: 2
         x: 96
@@ -2106,7 +2106,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tileset_92
+      name: 02
       rect:
         serializedVersion: 2
         x: 112
@@ -2128,7 +2128,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tileset_93
+      name: 03
       rect:
         serializedVersion: 2
         x: 128
@@ -2150,7 +2150,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tileset_94
+      name: 04
       rect:
         serializedVersion: 2
         x: 144
@@ -2451,6 +2451,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
+      01: 1966178788
+      02: -617810395
+      03: -952442813
+      04: -354052244
       PickUp: 1999128629
       obj2: 1194864208
       obj3: -1247259502
@@ -2549,10 +2553,6 @@ TextureImporter:
       tileset_89: 1060849157
       tileset_9: -781294158744790408
       tileset_90: 391192688
-      tileset_91: 1966178788
-      tileset_92: -617810395
-      tileset_93: -952442813
-      tileset_94: -354052244
       tileset_95: -795029402
       tileset_96: -406744988
       tileset_97: -455427461

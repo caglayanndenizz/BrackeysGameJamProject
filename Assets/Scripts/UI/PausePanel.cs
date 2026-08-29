@@ -5,6 +5,7 @@ public class PausePanel : MonoBehaviour
 {
     public GameObject pausePanel;
     public bool isPaused = false;
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -19,6 +20,7 @@ public class PausePanel : MonoBehaviour
             }
         }
     }
+
     public void Pause()
     {
         isPaused = true;
@@ -36,8 +38,9 @@ public class PausePanel : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        isPaused = false;                   
+        pausePanel.SetActive(false);         
+        LevelManager.Instance.RestartLevel(); 
     }
 
     public void ReturnToMainMenu()

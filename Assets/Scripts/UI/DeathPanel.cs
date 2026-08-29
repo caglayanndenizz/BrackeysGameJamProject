@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class DeathPanel : MonoBehaviour
 {
-    private GameObject deathPanel;
+    [SerializeField] private GameObject deathPanel;
 
 
     public void ShowDeathPanel()
@@ -15,7 +15,8 @@ public class DeathPanel : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Level 1");
+        deathPanel.SetActive(false);
+        LevelManager.Instance.RestartLevel();
     }
 
     public void ReturnToMainMenu()
