@@ -30,6 +30,10 @@ public class Player : MonoBehaviour
     public DeathPanel deathPanel;
     public float deathPanelDelay = 2f;
 
+    public SpriteRenderer spriteRenderer;
+    public float hitFlashTimer = 0f;
+    public bool isToxicActive;
+
 
     
     void Start()
@@ -38,15 +42,14 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
-        baseThrustForce = thrustForce;
-
-        
-        
-        
+        baseThrustForce = thrustForce;  
     }
 
     void Update()
     {
+        
+
+
         if(isDead) return;
         animator.SetFloat(SpeedParam, rb.linearVelocity.magnitude);
         if(Input.GetKeyDown(KeyCode.Space) && currentCargo != null)
@@ -64,6 +67,16 @@ public class Player : MonoBehaviour
             {
                 isShieldActive = false;
             }
+        }
+
+        if(hitFlashTimer > 0f)
+        {
+            hitFlashTimer -= Time.deltaTime;
+            spriteRenderer.color = Color.red;
+        }
+        else
+        {
+            spriteRenderer.color = isToxicActive ? Color.green : Color.white;
         }
     }
 
@@ -112,6 +125,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+
+        if(damage >= 1f) hitFlashTimer = 0.1f;
         if(isShieldActive)
         {
             currentShield = Mathf.Clamp(currentShield - damage , 0f , maxShield);

@@ -90,6 +90,12 @@ public class Cargo : MonoBehaviour
 
     public void ToxicWaste()
     {
+        player.isToxicActive = isToxic && transform.parent != null;
+
+        if(isToxic && transform.parent != null)
+        {
+            player.TakeDamage(2.5f * Time.deltaTime);
+        }
         //daha sonradan bir timer eklenecek. Aninda canini dusurmeye baslamayacak. Aksine o timer gectikten sonra asagidaki kod cagrilacak.
         if(isToxic && transform.parent != null)
         {

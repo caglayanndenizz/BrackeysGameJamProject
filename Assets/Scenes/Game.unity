@@ -1903,6 +1903,9 @@ MonoBehaviour:
   currentShield: 0
   deathPanel: {fileID: 3909170027490501265}
   deathPanelDelay: 2
+  spriteRenderer: {fileID: 1033552050}
+  hitFlashTimer: 0
+  isToxicActive: 0
 --- !u!95 &1033552054
 Animator:
   serializedVersion: 7
