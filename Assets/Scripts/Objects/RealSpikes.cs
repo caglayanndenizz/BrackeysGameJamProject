@@ -5,7 +5,6 @@ public class RealSpikes : MonoBehaviour
 
     public float damage = 10f;
     public float speed = 5f;
-    public float lifeTime = 15f;
     public Vector2 direction = Vector2.right;
     
     public Rigidbody2D rb;

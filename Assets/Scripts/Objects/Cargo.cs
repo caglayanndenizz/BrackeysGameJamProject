@@ -42,11 +42,12 @@ public class Cargo : MonoBehaviour
     void Update()
     {
 
-        if(gameObject.transform.position.y <= -20)
+        /*if(gameObject.transform.position.y <= -20)
         {
             Debug.Log("The ball dropped");
             SceneReload();
         }
+        */
 
         if(player.hasHarmlessCargo)
         {

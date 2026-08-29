@@ -42,17 +42,23 @@ public class FakeTrap : MonoBehaviour
             spike.speed = spikeSpeed;
         }
 
-        IgnoreCollisionWithOwnTrap(spikeObj);
+        IgnoreCollisionWithOverlappingColliders(spikeObj);
     }
 
-    void IgnoreCollisionWithOwnTrap(GameObject spikeObj)
+     void IgnoreCollisionWithOverlappingColliders(GameObject spikeObj)
     {
         Collider2D spikeCollider = spikeObj.GetComponent<Collider2D>();
-        Collider2D trapCollider = GetComponent<Collider2D>(); // bu trap'in kendi collider'i
+        if (spikeCollider == null) return;
 
-        if(spikeCollider != null && trapCollider != null)
+        ContactFilter2D filter = ContactFilter2D.noFilter;
+        filter.useTriggers = true; // trigger collider'lari da dahil et
+
+        Collider2D[] results = new Collider2D[16];
+        int count = Physics2D.OverlapCollider(spikeCollider, filter, results);
+
+        for (int i = 0; i < count; i++)
         {
-            Physics2D.IgnoreCollision(spikeCollider, trapCollider);
+            Physics2D.IgnoreCollision(spikeCollider, results[i]);
         }
     }
 
