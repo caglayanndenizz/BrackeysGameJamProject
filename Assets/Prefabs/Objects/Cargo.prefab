@@ -118,7 +118,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &4824093115597558305
 MonoBehaviour:
@@ -135,8 +135,10 @@ MonoBehaviour:
   cargoRb: {fileID: 5319401495976327876}
   isDangerous: 0
   isToxic: 0
+  isCarried: 0
   explosionTimer: 0
   timerText: {fileID: 0}
+  cargoAudio: {fileID: 0}
   displayOffset: 0
 --- !u!61 &4927346252091845633
 BoxCollider2D:

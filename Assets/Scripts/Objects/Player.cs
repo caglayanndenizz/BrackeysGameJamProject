@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public float maxSpeed = 10;    
     public float maxHealth;
     public float currentHealth;
+
+    private float baseMaxHealth;
     private bool isDead;
 
     public Slider healthSlider;
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
+        baseMaxHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
         baseThrustForce = thrustForce;  
@@ -101,17 +104,23 @@ public class Player : MonoBehaviour
     }
     void DropCargo()
     {   
-        //cargo droplandiginda fizik motoru dynamic e degisiyor. Player in child i olmaktan kurtuluyor ve oyuncu mass i eski haline donuyor.
-        currentCargo.cargoRb.bodyType = RigidbodyType2D.Dynamic;
-        currentCargo.cargoRb.linearVelocity = rb.linearVelocity; //drone un hizini kargonunkine esitliyoruz.
+        AudioManager.instance.Play(AudioManager.instance.dropOffCargo);
+        
+        currentCargo.isCarried = false;
         currentCargo.transform.SetParent(null);
+        currentCargo.cargoRb.bodyType = RigidbodyType2D.Dynamic;
+        //cargo droplandiginda fizik motoru dynamic e degisiyor. Player in child i olmaktan kurtuluyor ve oyuncu mass i eski haline donuyor.
+        currentCargo.cargoRb.linearVelocity = rb.linearVelocity; 
+        //drone un hizini kargonunkine esitliyoruz.
+        
         currentCargo = null;
 
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(currentCargo != null) return; //Eger kargo hala mevcut ise asagidaki satirlari es gec.
+        if(currentCargo != null) return; 
+        //Eger kargo hala mevcut ise asagidaki satirlari es gec.
 
         if(other.CompareTag("Cargo"))
         {
@@ -120,12 +129,13 @@ public class Player : MonoBehaviour
             currentCargo.transform.SetParent(transform);
             Debug.Log("Cargo pickup tetiklendi");
             currentCargo.OnPickedUp();
+            AudioManager.instance.Play(AudioManager.instance.pickup);
         }
     }
 
     public void TakeDamage(float damage)
     {
-
+        if(damage >= 1f) AudioManager.instance.Play(AudioManager.instance.hit);
         if(damage >= 1f) hitFlashTimer = 0.1f;
         if(isShieldActive)
         {
@@ -156,6 +166,7 @@ public class Player : MonoBehaviour
     }
     private IEnumerator DeathRoutine()
     {
+        AudioManager.instance.Play(AudioManager.instance.death);
         animator.SetTrigger(IsDeadParam);
 
         rb.linearVelocity = Vector2.zero;
@@ -168,12 +179,14 @@ public class Player : MonoBehaviour
 
     public void Heal(float amount)
     {
+        AudioManager.instance.Play(AudioManager.instance.heal);
         currentHealth = Mathf.Clamp(currentHealth + amount , 0f , maxHealth);
         healthSlider.value = currentHealth;
     }
 
     public void ApplyThrustPenalty(float multiplier , float duration)
     {
+        AudioManager.instance.Play(AudioManager.instance.speedCutOff);
         if(thrustError != null)
         {
             StopCoroutine(thrustError);
@@ -227,6 +240,10 @@ public class Player : MonoBehaviour
             Destroy(currentCargo.gameObject);
             currentCargo = null;
         }
+
+        maxHealth = baseMaxHealth;                  
+        //burada max health i orjinal haline geri donduruyoruz.
+        healthSlider.maxValue = maxHealth;          
 
         currentHealth = maxHealth;
         healthSlider.value = currentHealth;

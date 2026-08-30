@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.instance.PlayGameMusic();
         LoadLevel(currentLevelIndex);
     }
 

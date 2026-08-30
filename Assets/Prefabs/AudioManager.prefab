@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &758092789596912658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2022032576851379280}
+  - component: {fileID: 8903625358025735834}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2022032576851379280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758092789596912658}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.29119, y: -4.36494, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8903625358025735834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758092789596912658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db3f7d23b1d4864f835424dc582c7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  sfxSource: {fileID: 0}
+  musicSource: {fileID: 0}
+  hit: {fileID: 8300000, guid: a5cf3106d2a5d71428681b32677f84c9, type: 3}
+  death: {fileID: 8300000, guid: 9162775771fac4e418de75e532861f4c, type: 3}
+  pickup: {fileID: 8300000, guid: 8105a804afea627448d6cab29673f6b7, type: 3}
+  explosion: {fileID: 8300000, guid: 893b009a1992ab440a9a4c145f635670, type: 3}
+  tickingBomb: {fileID: 8300000, guid: 2281e38ea46290940a8fe336d0fa64b8, type: 3}
+  button: {fileID: 8300000, guid: 82dbd39179757774ea440ac0c32ec141, type: 3}
+  levelCompleted: {fileID: 8300000, guid: ef22fb65eac4f5746a8eb9f6e2863841, type: 3}
+  toxic: {fileID: 8300000, guid: aeda9a805891ed64788c87c80f463295, type: 3}
+  heal: {fileID: 8300000, guid: ffd0e56248707e1409215d73533521ef, type: 3}
+  speedCutOff: {fileID: 8300000, guid: d28b5d18b67c3a64fb09cc0ef8572e49, type: 3}
+  dropOffCargo: {fileID: 8300000, guid: 90a145c90ca9aeb4a938c7ff5f3fee10, type: 3}
+  menuMusic: {fileID: 8300000, guid: 811607edde80d914db097c0b95b50246, type: 3}
+  gameMusic: {fileID: 8300000, guid: 3550e7a6c95f8ef4283abc58ac86945b, type: 3}

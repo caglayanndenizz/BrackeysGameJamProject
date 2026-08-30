@@ -5,17 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class Cargo : MonoBehaviour
 {
-
     public Rigidbody2D cargoRb;
     public bool isDangerous;
     public bool isToxic;
-    
+    public bool isCarried = false;
+
     public float explosionTimer;
     private Player player;
     public TMP_Text timerText;
+    public AudioSource cargoAudio;
 
     public float displayOffset;
-    
+
     void Start()
     {
         cargoRb = GetComponent<Rigidbody2D>();
@@ -23,31 +24,30 @@ public class Cargo : MonoBehaviour
         PossibilityOfCargoExplosion();
         player = FindFirstObjectByType<Player>();
 
-
-        timerText = GameObject.FindGameObjectWithTag("TimerUI").GetComponent<TMP_Text>();
-        timerText.text = "";
-        
-        
-        if(isDangerous)
+        if(timerText == null)
         {
-            
-            explosionTimer = 30f;
-            displayOffset = Random.Range(-3f , 3f);
+            GameObject timerObj = GameObject.FindGameObjectWithTag("TimerUI");
+            if(timerObj != null)
+            {
+                timerText = timerObj.GetComponent<TMP_Text>();
+            }
         }
 
+        if(timerText != null)
+        {
+            timerText.text = "";
+        }
 
-        
+        if(isDangerous)
+        {
+            explosionTimer = 30f;
+            displayOffset = Random.Range(-3f, 3f);
+        }
     }
 
     void Update()
     {
-
-        /*if(gameObject.transform.position.y <= -20)
-        {
-            Debug.Log("The ball dropped");
-            SceneReload();
-        }
-        */
+        if(player == null) return;
 
         if(player.hasHarmlessCargo)
         {
@@ -56,59 +56,82 @@ public class Cargo : MonoBehaviour
             if(isDangerous)
             {
                 isDangerous = false;
-                timerText.gameObject.SetActive(false);
+                if(timerText != null) timerText.text = "";
             }
         }
 
         ToxicWaste();
+        CargoAudio();
 
         if(!isDangerous) return;
-        if(transform.parent == null) return;
+        if(!isCarried) return;
+
         explosionTimer -= Time.deltaTime;
 
-        float displayedTimer = Mathf.Max(explosionTimer + displayOffset , 0f); // timer in - li sayi almasini engelliyor.
-        timerText.text = explosionTimer.ToString("F0"); //23.45 gibi bir sayiyi 23 e tamamlar.
+        float displayedTimer = Mathf.Max(explosionTimer + displayOffset, 0f);
+        if(timerText != null) timerText.text = explosionTimer.ToString("F0");
 
         if(explosionTimer <= 0f)
         {
             Explode();
-            SceneReload();
-        } 
+        }
     }
-
 
     public void PossibilityOfCargoExplosion()
     {
-        isDangerous = Random.Range(0f,1f) < 0.4f;
+        isDangerous = Random.Range(0f, 1f) < 0.4f;
     }
 
     void Explode()
     {
+        AudioManager.instance.Play(AudioManager.instance.explosion);
+        player.isToxicActive = false;
         player.TakeDamage(300);
+        if(timerText != null) timerText.text = "";
         Destroy(gameObject);
     }
 
     public void ToxicWaste()
     {
-        player.isToxicActive = isToxic && transform.parent != null;
+        player.isToxicActive = isToxic && isCarried;
 
-        if(isToxic && transform.parent != null)
-        {
-            player.TakeDamage(2.5f * Time.deltaTime);
-        }
-        //daha sonradan bir timer eklenecek. Aninda canini dusurmeye baslamayacak. Aksine o timer gectikten sonra asagidaki kod cagrilacak.
-        if(isToxic && transform.parent != null)
+        if(isToxic && isCarried)
         {
             player.TakeDamage(2.5f * Time.deltaTime);
         }
     }
-    void SceneReload()
+
+    void CargoAudio()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if(cargoAudio == null) return;
+
+        if(isDangerous && isCarried)
+        {
+            if(!cargoAudio.isPlaying || cargoAudio.clip != AudioManager.instance.tickingBomb)
+            {
+                cargoAudio.clip = AudioManager.instance.tickingBomb;
+                cargoAudio.loop = true;
+                cargoAudio.Play();
+            }
+        }
+        else if(isToxic && isCarried)
+        {
+            if(!cargoAudio.isPlaying || cargoAudio.clip != AudioManager.instance.toxic)
+            {
+                cargoAudio.clip = AudioManager.instance.toxic;
+                cargoAudio.loop = true;
+                cargoAudio.Play();
+            }
+        }
+        else
+        {
+            if(cargoAudio.isPlaying) cargoAudio.Stop();
+        }
     }
 
     public void OnPickedUp()
     {
-        timerText.gameObject.SetActive(isDangerous);
+        isCarried = true;
+        if(timerText != null && isDangerous) timerText.text = explosionTimer.ToString("F0");
     }
 }

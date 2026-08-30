@@ -22,7 +22,8 @@ public class DropOffPoint : MonoBehaviour
         if (other.CompareTag("Cargo") && other.transform.parent == null)
         {
             levelCompleted = true;
-            Debug.Log("Cargo Received and level completed.");
+            AudioManager.instance.Play(AudioManager.instance.levelCompleted);
+            Destroy(other.gameObject);
             LevelManager.Instance.LoadNextLevel();
         }
     }

@@ -20,7 +20,7 @@ public class PickUp : MonoBehaviour
 
         
         Vector2 spawnPosition = new Vector2(pickUpTransform.position.x, pickUpTransform.position.y);
-        Instantiate(cargoPrefab , spawnPosition , Quaternion.identity);
+        Instantiate(cargoPrefab , spawnPosition , Quaternion.identity, transform);
     }
 
 }

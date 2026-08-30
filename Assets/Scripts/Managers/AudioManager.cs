@@ -7,15 +7,21 @@ public class AudioManager : MonoBehaviour
     public AudioSource sfxSource;
     public AudioSource musicSource;
 
-    [Header("SFX")]
-    public AudioClip hitSound;
-    public AudioClip deathSound;
-    public AudioClip pickupSound;
-    public AudioClip explosionSound;
-    public AudioClip buttonSound;
-    public AudioClip levelCompleteSound;
+    
+    public AudioClip hit;
+    public AudioClip death;
+    public AudioClip pickup;
+    public AudioClip explosion;
+    public AudioClip tickingBomb;
+    public AudioClip button;
+    public AudioClip levelCompleted;
+    public AudioClip toxic;
+    public AudioClip heal;
+    public AudioClip speedCutOff;
+    public AudioClip dropOffCargo;
 
-    [Header("Music")]
+    
+
     public AudioClip menuMusic;
     public AudioClip gameMusic;
 
@@ -42,7 +48,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayButtonSound()
     {
-        Play(buttonSound);
+        Play(button);
     }
 
     public void PlayMusic(AudioClip clip)

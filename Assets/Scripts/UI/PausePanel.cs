@@ -26,6 +26,7 @@ public class PausePanel : MonoBehaviour
         isPaused = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
+        AudioManager.instance.musicSource.Pause();
     }
 
     public void Resume()
@@ -33,6 +34,7 @@ public class PausePanel : MonoBehaviour
         isPaused = false;
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
+        AudioManager.instance.musicSource.UnPause();
     }
 
     public void Restart()
@@ -40,7 +42,8 @@ public class PausePanel : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;                   
         pausePanel.SetActive(false);         
-        LevelManager.Instance.RestartLevel(); 
+        LevelManager.Instance.RestartLevel();
+        AudioManager.instance.PlayGameMusic();
     }
 
     public void ReturnToMainMenu()
